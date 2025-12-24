@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>My Vault</title>
+        <link rel="stylesheet" href = "{{ url_for('static', filename='style.css') }}">
+    </head>
+    <body>
+        <h1>My Movies</h1>
+        <div class = "vault-header">
+        {% if back_word %}
+            <a href="{{ url_for('home', search=back_word) }}" class="back-link">Back to Search Results</a><br><br>
+        {% else %}
+            <a href="{{ url_for('home') }}" class="back-link">Back to Home</a><br><br>
+        {% endif %}
+        <form action = "{{ url_for('delete_all', remember=back_word or '') }}" method = "POST">
+            <button type = "submit" class = "btn-danger">Remove All</button>
+        </form>
+        </div>
+        <hr>
+        <div class = "movie-grid">
+        {% for movie in movies %}
+            <div class="movie-card">
+            <img src="{{ movie.poster }}" alt = "Poster N/A" width="100%" style="border-radius: 5px;">
+            <h3>{{ movie.title }} ({{ movie.year }})</h3>
+            <a href="https://www.google.com/search?q=watch+{{ movie.title }}" target = "_blank">
+                <button type = "button" class = "btn-secondary">Watch Options</button>
+            </a>
+            <form action = "{{ url_for('delete_movie', movie_id = movie.id, remember=back_word or '') }}" method = "POST">
+                <button type = "submit" class = "btn-danger">Remove</button>
+            </form>
+            </div>
+        {% endfor %}
+        </div>
+        {% if not movies %}
+            <p>Vault empty. Go search some movies!</p>
+        {% endif %}
+        <footer class="main-footer">
+            <p>Created by Harsh Verma</p>
+            <div class="footer-links">
+                <a href="https://github.com/harsh-verma-27" target="_blank" class="back-link">GitHub</a>
+            </div>
+        </footer>
+    </body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Movie Vault</title>
+        <link rel="stylesheet" href = "{{ url_for('static', filename='style.css') }}">
+    </head>
+    <body>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <h1>Movie Vault</h1>
+        <div class="search-container">
+        <form action="/" method = "GET">
+            <a href="{{ url_for('view_vault', last_search = request.args.get('search')) }}" class="back-link">My Vault</a><br><br>
+            <input type = "text" name = "search" placeholder = "Search for a movie..." required><br><br>
+            <button type = "submit">Search</button>
+        </form>
+        </div>
+        <hr>
+        
+        {% if movie %}
+        <div class = "movie-grid">
+            {% for e in movie %}
+                <div class = "movie-card">
+                <h2>{{ e.Title }} ({{ e.Year }})</h2>
+                <img src = "{{ e.Poster}}" alt = "Poster not available" width="150">
+                <a href="{{ url_for('details', movie_id = e.imdbID, search_term = request.args.get('search')) }}">
+                    <button type = "button" class = "btn-secondary">Know more</button>
+                </a>
+                <form action = "/save" method = "POST">
+                    <input type="hidden" name="title" value="{{ e.Title }}">
+                    <input type="hidden" name="year" value="{{ e.Year }}">
+                    <input type="hidden" name="poster" value="{{ e.Poster }}">
+                    <input type="hidden" name="curr_search" value="{{ request.args.get('search') }}">
+                    <button type = "submit">Add to Vault</button>
+                </form>
+                </div>
+            {% endfor %}
+        {% elif request.args.get('search') %}
+            <p>Movie not found. Try another title!</p>
+        {% endif %}
+        </div>
+        <footer class="main-footer">
+            <p>Created by Harsh Verma</p>
+            <div class="footer-links">
+                <a href="https://github.com/harsh-verma-27" target="_blank" class="back-link">GitHub</a>
+            </div>
+        </footer>
+    </body>
+</html>

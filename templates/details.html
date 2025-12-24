@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ movie.Title }} - Details</title>
+    <link rel="stylesheet" href = "{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    <div class = "vault-header">
+        <a href="{{ url_for('home', search=back_to) }}" class="back-link">Back to Search</a>
+    </div>
+    <hr>
+    <div class="details-container">
+        <div class ="details-poster">
+        <img src="{{ movie.Poster }}" alt="Poster" style="border-radius: 10px; width: 300px;">
+        </div>
+        <div class ="details-info">
+            <h1>{{ movie.Title }} ({{ movie.Year }})</h1>
+            <p><strong>Genre:</strong> {{ movie.Genre }}</p>
+            <p><strong>Director:</strong> {{ movie.Director }}</p>
+            <p><strong>Actors:</strong> {{ movie.Actors }}</p>
+            <p><strong>IMDb Rating:</strong> ⭐ {{ movie.imdbRating }}</p>
+            <h3>Plot:</h3>
+            <p>{{ movie.Plot }}</p>
+            <form action="/save" method="POST">
+                <input type="hidden" name="title" value="{{ movie.Title }}">
+                <input type="hidden" name="year" value="{{ movie.Year }}">
+                <input type="hidden" name="poster" value="{{ movie.Poster }}">
+                <input type="hidden" name="curr_search" value="{{ back_to }}">
+                <button type="submit">Add this to My Vault</button>
+            </form>
+        </div>
+    </div>
+    <br><br><br>
+    <footer class="main-footer">
+        <p>Created by Harsh Verma</p>
+        <div class="footer-links">
+            <a href="https://github.com/harsh-verma-27" target="_blank" class="back-link">GitHub</a>
+        </div>
+    </footer>
+</body>
+</html>
