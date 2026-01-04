@@ -8,8 +8,6 @@ Detailed Views: Deep-dive into plot summaries, ratings, and cast information.
 
 Personal Vault: Save and remove movies from a local database using SQLite.
 
-Responsive Design: Custom "Netflix-style" dark theme UI with CSS Flexbox.
-
 Error Handling: Robust search validation and API timeout protection.
 
 🛠️ Tech Stack
